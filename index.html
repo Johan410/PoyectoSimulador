@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Electrostática</title>
+    <link rel="stylesheet" href="stylesp.css">
+</head>
+<body>
+    
+    <div class="panel-control">
+        <h1>Simulador de Electrostática</h1>
+        <p>Haz clic en el lienzo para añadir una carga. Arrástrala para moverla y haz doble clic para eliminarla.</p>
+        
+        <div class="controles">
+            <button id="btn-reiniciar">Reiniciar Simulación</button>
+            <button id="btn-gauss">Mostrar/Ocultar Superficie Gaussiana</button>
+        </div>
+
+        <div id="info-gauss" class="info-box hidden">
+            <h2>Ley de Gauss (en 2D)</h2>
+            <p>Carga Encerrada (Q_enc): <span id="carga-encerrada">0</span> µC</p>
+            <p>Flujo Eléctrico (Φ): <span id="flujo-electrico">0</span> Nm²/C</p>
+        </div>
+
+        <div id="info-coulomb" class="info-box hidden">
+            <h2>Ley de Coulomb</h2>
+            <p>Fuerza entre Carga <span id="coulomb-c1"></span> y Carga <span id="coulomb-c2"></span>:</p>
+            <p class="fuerza-valor"><span id="fuerza-coulomb">0</span> N</p>
+        </div>
+
+        <h2>Lista de Cargas</h2>
+        <p class="instruccion-lista">Selecciona dos cargas para calcular la fuerza de Coulomb.</p>
+        <ul id="lista-cargas">
+            </ul>
+    </div>
+
+    <canvas id="simCanvas" width="900" height="700"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
