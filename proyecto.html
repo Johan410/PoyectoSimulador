@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Aprende sobre la Electricidad! - Para Niños</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #4a6bff, #ff6b6b, #ffd93d);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            color: #4a6bff;
+            margin-right: 15px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #4a6bff;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #ffd93d;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            color: #ff6b6b;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: bold;
+        }
+        
+        nav {
+            background: rgba(74, 107, 255, 0.9);
+            margin: 20px 0;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav li {
+            margin: 5px 15px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            background: #ff6b6b;
+            display: block;
+            font-size: 1.1rem;
+        }
+        
+        nav a:hover {
+            background: #ffd93d;
+            color: #4a6bff;
+            transform: scale(1.1);
+        }
+        
+        .content-section {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 5px dashed #4a6bff;
+        }
+        
+        h2 {
+            color: #4a6bff;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ffd93d;
+            font-size: 2rem;
+            text-align: center;
+        }
+        
+        h3 {
+            color: #ff6b6b;
+            margin: 20px 0 15px;
+            font-size: 1.6rem;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: justify;
+        }
+        
+        .example {
+            background: #f0f8ff;
+            border: 3px solid #4a6bff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            position: relative;
+        }
+        
+        .example:before {
+            content: "💡";
+            position: absolute;
+            left: -15px;
+            top: -15px;
+            font-size: 2rem;
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffd93d;
+        }
+        
+        .formula {
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow-x: auto;
+            border: 2px dotted #ff6b6b;
+        }
+        
+        .illustration {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 3px solid #ffd93d;
+        }
+        
+        .illustration img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        
+        .caption {
+            font-style: italic;
+            margin-top: 10px;
+            color: #6c757d;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .key-points {
+            background: #e8f4fd;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 10px solid #4a6bff;
+        }
+        
+        .key-points h3 {
+            color: #4a6bff;
+            margin-top: 0;
+        }
+        
+        .key-points ul {
+            padding-left: 20px;
+        }
+        
+        .key-points li {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .applications {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .application {
+            flex: 1;
+            min-width: 250px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .application:hover {
+            transform: translateY(-5px);
+            border-color: #ffd93d;
+        }
+        
+        .application h4 {
+            color: #4a6bff;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .activity {
+            background: #fff9e6;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 3px solid #ffd93d;
+        }
+        
+        .activity h3 {
+            color: #ff6b6b;
+            text-align: center;
+        }
+        
+        .simulator-container {
+            width: 100%;
+            border: 4px solid #4a6bff;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+        
+        .simulator-instructions {
+            background: #e8f4fd;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .simulator-instructions h3 {
+            color: #4a6bff;
+            text-align: center;
+        }
+        
+        .instruction-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .step-number {
+            background: #ff6b6b;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-section h3 {
+            color: #ffd93d;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-bottom {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .character {
+            display: flex;
+            align-items: center;
+            background: #f0f8ff;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 3px solid #4a6bff;
+        }
+        
+        .character img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+        
+        .character-text {
+            flex: 1;
+        }
+        
+        .character-name {
+            font-weight: bold;
+            color: #4a6bff;
+            font-size: 1.3rem;
+        }
+        
+        /* Estilos del simulador de carga eléctrica */
+        #escena {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border: 2px solid #444;
+            background: #f4faff;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        #globo {
+            width: 110px;
+            height: 140px;
+            background: radial-gradient(circle at 30% 30%, #6cf, #039);
+            border-radius: 50% 50% 50% 50% / 60% 60% 45% 45%;
+            position: absolute;
+            bottom: 20px;
+            left: 250px;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.2s;
+        }
+
+        #globo::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #039;
+            border-radius: 50%;
+        }
+
+        .material {
+            width: 100px;
+            height: 80px;
+            border-radius: 8px;
+            position: absolute;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        #lana { 
+            background-image: url('https://marcotricot.es/wp-content/uploads/2019/11/lana-merino-marcotricot-moda-hombre.jpg'); 
+            top: 20px; left: 30px; 
+        }
+        #seda { 
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmRAYaLQFrGSYRtiwn393fvP1BwmRLTmrfAQ&s'); 
+            top: 20px; left: 250px; 
+        }
+        #plastico { 
+            background-image: url('https://bolsasdulmar.com.mx/wp-content/uploads/2023/11/Bolsas-de-polietileno-solucion-1536x1025-1.webp'); 
+            top: 20px; left: 450px; 
+        }
+
+        .particula {
+            position: absolute;
+            font-size: 18px;
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        #pared {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            background: #999;
+        }
+
+        .descargador {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #444;
+            position: absolute;
+            top: 200px;
+            left: 100px;
+            cursor: grab;
+        }
+
+        .papel {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgb(69, 223, 98);
+            border-radius: 3px;
+        }
+        
+        .simulator-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f0f8ff;
+            border-top: 2px solid #4a6bff;
+        }
+        
+        .carga-info {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4a6bff;
+        }
+        
+        .reset-btn {
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .reset-btn:hover {
+            background: #ff4d4d;
+            transform: scale(1.05);
+        }
+
+        .simulator-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+        }
+        
+        .simulator-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: #4a6bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .simulator-tab.active {
+            background: #ff6b6b;
+        }
+        
+        .simulator-content {
+            display: none;
+        }
+        
+        .simulator-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 5px 0;
+                width: 80%;
+            }
+            
+            .character {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .character img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            #escena {
+                height: 400px;
+            }
+            
+            .material {
+                width: 80px;
+                height: 60px;
+            }
+            
+            #lana { 
+                top: 20px; left: 20px; 
+            }
+            #seda { 
+                top: 20px; left: 150px; 
+            }
+            #plastico { 
+                top: 20px; left: 280px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <i class="fas fa-bolt logo"></i>
+                <h1>¡La Aventura de la Electricidad!</h1>
+            </div>
+            <p class="subtitle">Descubre cómo funciona la electricidad de una manera divertida y fácil</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="#intro">¿Qué es la electricidad?</a></li>
+                <li><a href="#cargas">Cargas eléctricas</a></li>
+                <li><a href="#campos">Campos eléctricos</a></li>
+                <li><a href="#gauss">Ley de Gauss</a></li>
+                <li><a href="#simulador">Simuladores</a></li>
+                <li><a href="#experimentos">Experimentos divertidos</a></li>
+            </ul>
+        </nav>
+        
+        <section id="intro" class="content-section">
+            <h2>¿Qué es la Electricidad?</h2>
+            
+            <div class="character">
+                <div style="width: 100px; height: 100px; background: #ffd93d; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem;">⚡</div>
+                <div class="character-text">
+                    <div class="character-name">Electrolito</div>
+                    <p>¡Hola! Soy Electrolito y te voy a enseñar todo sobre la electricidad. ¿Sabías que la electricidad está en todas partes? En los rayos durante una tormenta, en las luces de tu casa, ¡e incluso en tu cuerpo!</p>
+                </div>
+            </div>
+            
+            <p>La electricidad es como un río invisible de energía que puede hacer que las cosas funcionen. Imagina que los electrones son pequeñas bolitas con energía que se mueven muy rápido.</p>
+            
+            <div class="illustration">
+                <div style="font-size: 5rem; margin: 10px 0;">💡</div>
+                <div class="caption">¡La electricidad hace que las bombillas se enciendan!</div>
+            </div>
+            
+            <div class="key-points">
+                <h3>Datos curiosos sobre la electricidad:</h3>
+                <ul>
+                    <li>¡Un rayo puede ser 5 veces más caliente que el sol!</li>
+                    <li>La electricidad viaja casi a la velocidad de la luz</li>
+                    <li>Tu corazón late gracias a pequeñas señales eléctricas</li>
+                    <li>Las anguilas eléctricas pueden producir descargas de hasta 600 voltios</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="cargas" class="content-section">
+            <h2>Cargas Eléctricas: Positivas y Negativas</h2>
+            
+            <p>Todas las cosas están hechas de átomos, y dentro de los átomos hay partículas llamadas protones (con carga positiva) y electrones (con carga negativa).</p>
+            
+            <div class="illustration">
+                <div style="display: flex; justify-content: space-around; width: 100%;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 4rem; color: #ff6b6b;">➕</div>
+                        <div style="font-weight: bold;">Carga positiva</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 4rem; color: #4a6bff;">➖</div>
+                        <div style="font-weight: bold;">Carga negativa</div>
+                    </div>
+                </div>
+                <div class="caption">Las cargas opuestas se atraen, las iguales se repelen</div>
+            </div>
+            
+            <div class="example">
+                <h3>💡 Experimento mental:</h3>
+                <p>Imagina que tienes dos imanes. Si juntas los polos iguales (Norte con Norte o Sur con Sur), ¡se empujan! Pero si juntas polos diferentes (Norte con Sur), ¡se atraen! Con las cargas eléctricas pasa lo mismo.</p>
+            </div>
+            
+            <h3>Ley de Coulomb </h3>
+            <p>Cuando dos cosas tienen carga eléctrica, pueden empujarse o atraerse. Entre más cerca estén y más carga tengan, más fuerte será esta fuerza.</p>
+            
+            <div class="formula">
+                Fuerza = (Carga 1 × Carga 2) / (Distancia × Distancia)
+            </div>
+            
+            <div class="activity">
+                <h3>¡Actividad práctica!</h3>
+                <p>Frota un globo en tu cabello y luego acércalo a pequeños pedazos de papel. ¡Verás cómo el globo atrae los papelitos! Esto pasa porque el globo se carga con electricidad estática.</p>
+            </div>
+        </section>
+        
+        <section id="campos" class="content-section">
+            <h2>Campos Eléctricos: La Zona de Influencia</h2>
+            
+            <p>Un campo eléctrico es como una zona invisible alrededor de una carga eléctrica donde puede sentir la presencia de otras cargas. Imagina que es como el aroma de una galleta recién horneada que llena toda la cocina.</p>
+            
+            <div class="illustration">
+                <div style="font-size: 4rem; margin: 10px 0;">🌀</div>
+                <div class="caption">El campo eléctrico es como un aura invisible alrededor de las cargas</div>
+            </div>
+            
+            <h3>¿Cómo "ven" los científicos los campos eléctricos?</h3>
+            <p>Los científicos dibujan líneas para representar los campos eléctricos. Donde las líneas están más juntas, el campo es más fuerte. Donde están más separadas, el campo es más débil.</p>
+            
+            <div class="key-points">
+                <h3>Tipos de campos eléctricos:</h3>
+                <ul>
+                    <li><strong>Campo de una carga puntual:</strong> Como el de una sola carga, se extiende en todas direcciones</li>
+                    <li><strong>Campo entre dos placas:</strong> Como en un capacitor, es uniforme y paralelo</li>
+                    <li><strong>Campo de un alambre:</strong> Se extiende radialmente alrededor del alambre</li>
+                </ul>
+            </div>
+            
+            <div class="example">
+                <h3>💡 Ejemplo con imanes:</h3>
+                <p>Si pones limaduras de hierro cerca de un imán, verás cómo se alinean siguiendo las líneas del campo magnético. ¡Con los campos eléctricos pasa algo similar!</p>
+            </div>
+        </section>
+        
+        <section id="gauss" class="content-section">
+            <h2>La Ley de Gauss: Contando Líneas de Campo</h2>
+            
+            <div class="character">
+                <div style="width: 100px; height: 100px; background: #4a6bff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white;">🔍</div>
+                <div class="character-text">
+                    <div class="character-name">Gauss el Genio</div>
+                    <p>¡Hola! Soy Gauss y descubrí una forma fácil de entender los campos eléctricos. Imagina que las líneas del campo eléctrico son como rayos de sol que pasan por una ventana.</p>
+                </div>
+            </div>
+            
+            <p>La Ley de Gauss nos dice que podemos saber cuánta carga hay dentro de una "caja imaginaria" contando cuántas líneas de campo eléctrico entran y salen de ella.</p>
+            
+            <div class="formula">
+                Líneas que salen - Líneas que entran = Carga dentro / ε₀
+            </div>
+            
+            <p>Donde ε₀ es un número especial que los científicos usan para hacer que las cuentas salgan bien.</p>
+            
+            <div class="illustration">
+                <div style="display: flex; justify-content: center; align-items: center; height: 150px;">
+                    <div style="position: relative; width: 120px; height: 120px; border: 3px solid #4a6bff; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <div style="font-size: 2rem;">➕</div>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <div style="font-size: 1.5rem;">→</div>
+                        <div style="font-size: 1.5rem;">→</div>
+                        <div style="font-size: 1.5rem;">→</div>
+                    </div>
+                </div>
+                <div class="caption">Una carga positiva dentro de una caja hace que salgan líneas de campo</div>
+            </div>
+            
+            <h3>Aplicaciones de la Ley de Gauss</h3>
+            
+            <div class="applications">
+                <div class="application">
+                    <h4>⚡ Esfera cargada</h4>
+                    <p>Para una esfera con carga, fuera de ella el campo es como si toda la carga estuviera en el centro.</p>
+                </div>
+                
+                <div class="application">
+                    <h4>🔲 Plano infinito</h4>
+                    <p>Un plano grande con carga crea un campo uniforme que va perpendicular al plano.</p>
+                </div>
+                
+                <div class="application">
+                    <h4>🔘 Cilindro cargado</h4>
+                    <p>Un cilindro largo con carga crea un campo que se aleja radialmente del cilindro.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="simulador" class="content-section">
+            <h2>Simuladores de Electricidad</h2>
+            
+            <div class="character">
+                <div style="width: 100px; height: 100px; background: #ff6b6b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white;">🎮</div>
+                <div class="character-text">
+                    <div class="character-name">Simulador de Electricidad</div>
+                    <p>¡Hola! Ahora puedes jugar con estos dos simuladores para entender mejor la electricidad. El primero te muestra campos eléctricos y el segundo te permite experimentar con cargas eléctricas usando un globo.</p>
+                </div>
+            </div>
+            
+            <div class="simulator-tabs">
+                <div class="simulator-tab active" data-tab="campos">Simulador de Campos Eléctricos</div>
+                <div class="simulator-tab" data-tab="globo">Simulador de Cargas con Globo</div>
+            </div>
+            
+            <!-- Simulador de Campos Eléctricos (original) -->
+            <div class="simulator-content active" id="campos-simulator">
+                <div class="simulator-instructions">
+                    <h3>¿Cómo usar el simulador de campos eléctricos?</h3>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div>Haz clic en "Abrir Simulador" para cargar la aplicación</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div>Coloca cargas positivas (+) y negativas (-) en la pantalla</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div>Observa cómo se forman las líneas del campo eléctrico</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div>Mueve las cargas y ve cómo cambia el campo</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">5</div>
+                        <div>¡Experimenta y diviértete aprendiendo!</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <a href="https://johan410.github.io/PoyectoSimulador/" target="_blank" style="display: inline-block; padding: 15px 30px; background: #4a6bff; color: white; text-decoration: none; border-radius: 30px; font-size: 1.3rem; font-weight: bold; transition: all 0.3s;">
+                        <i class="fas fa-gamepad" style="margin-right: 10px;"></i>Abrir Simulador de Campos
+                    </a>
+                </div>
+                
+                <div class="simulator-container" style="height: 600px;">
+                    <iframe src="https://johan410.github.io/PoyectoSimulador/" width="100%" height="100%" frameborder="0" style="border: none;"></iframe>
+                </div>
+            </div>
+            
+            <!-- Simulador de Cargas con Globo (nuevo) -->
+            <div class="simulator-content" id="globo-simulator">
+                <div class="simulator-instructions">
+                    <h3>¿Cómo usar el simulador de cargas con globo?</h3>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div>Arrastra el globo sobre los materiales (lana, seda, plástico) para cargarlo</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div>Observa cómo cambia la carga del globo (positiva, negativa o neutra)</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div>Un globo con carga negativa se pegará a la pared</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div>Usa el descargador (esfera gris) para neutralizar la carga del globo</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">5</div>
+                        <div>Observa cómo los papelitos verdes reaccionan al globo cargado</div>
+                    </div>
+                </div>
+                
+                <div class="simulator-container">
+                    <div id="escena">
+                        <div id="globo">0</div>
+                        <div id="lana" class="material" data-charge="+"></div>
+                        <div id="seda" class="material" data-charge="-"></div>
+                        <div id="plastico" class="material" data-charge="0"></div>
+                        <div id="pared"></div>
+                        <div id="descargador" class="descargador"></div>
+                    </div>
+                    <div class="simulator-controls">
+                        <div class="carga-info">Carga del globo: <span id="nivelCarga">0</span></div>
+                        <button class="reset-btn" id="resetSimulador">Reiniciar Simulador</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="activity">
+                <h3>⚠️ ¡Importante! Seguridad en línea</h3>
+                <p>Siempre pide permiso a un adulto antes de usar cualquier aplicación en internet. Nunca compartas información personal en línea.</p>
+            </div>
+        </section>
+        
+        <section id="experimentos" class="content-section">
+            <h2>Experimentos Divertidos con Electricidad</h2>
+            
+            <p>¡Ahora es tiempo de divertirnos con algunos experimentos seguros que puedes hacer en casa!</p>
+            
+            <div class="applications">
+                <div class="application">
+                    <h4>⚡ Globo electrostático</h4>
+                    <p>Materiales: Globo, tu cabello o un suéter de lana.</p>
+                    <p>Instrucciones: Infla el globo y frótalo en tu cabello o en un suéter de lana. Luego acércalo a pequeños pedazos de papel o a la pared. ¡Verás cómo se pega!</p>
+                </div>
+                
+                <div class="application">
+                    <h4>💡 Circuito simple</h4>
+                    <p>Materiales: Pila de 9V, cable fino, bombilla pequeña.</p>
+                    <p>Instrucciones: Conecta un extremo del cable a un terminal de la pila y el otro a la base de la bombilla. Toca el otro terminal de la pila con la base de la bombilla. ¡Se encenderá!</p>
+                </div>
+                
+                <div class="application">
+                    <h4>🌀 Limaduras de campo</h4>
+                    <p>Materiales: Imanes, limaduras de hierro, papel.</p>
+                    <p>Instrucciones: Pon un imán debajo de una hoja de papel y espolvorea limaduras de hierro sobre el papel. Verás cómo se alinean siguiendo las líneas del campo magnético (similar al eléctrico).</p>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h3>¿Qué aprendimos hoy?</h3>
+                <ul>
+                    <li>La electricidad está en todas partes</li>
+                    <li>Hay cargas positivas y negativas que se atraen o repelen</li>
+                    <li>Los campos eléctricos son zonas de influencia alrededor de las cargas</li>
+                    <li>La Ley de Gauss nos ayuda a entender mejor los campos eléctricos</li>
+                    <li>¡Podemos hacer experimentos divertidos y seguros con electricidad!</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Más diversión</h3>
+                    <p><a href="#simulador" style="color: #ffd93d;">Simuladores de electricidad</a></p>
+                    <p><a href="#" style="color: #ffd93d;">Juegos sobre electricidad</a></p>
+                    <p><a href="#" style="color: #ffd93d;">Videos educativos</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>¡Sigue aprendiendo!</h3>
+                    <p>La ciencia es divertida cuando la exploras con curiosidad. ¡Sigue haciendo preguntas y experimentando!</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Aventuras Científicas para Niños. ¡Aprender es divertido!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sistema de pestañas para los simuladores
+        const tabs = document.querySelectorAll('.simulator-tab');
+        const contents = document.querySelectorAll('.simulator-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remover clase activa de todas las pestañas y contenidos
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // Agregar clase activa a la pestaña y contenido seleccionados
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-simulator`).classList.add('active');
+            });
+        });
+
+        // Selección de elementos del DOM para el simulador de globo
+        const globo = document.getElementById("globo"),
+              escena = document.getElementById("escena"),
+              materiales = document.querySelectorAll(".material"),
+              pared = document.getElementById("pared"),
+              descargador = document.getElementById("descargador"),
+              nivelCargaSpan = document.getElementById("nivelCarga"),
+              resetBtn = document.getElementById("resetSimulador");
+
+        // Crear papelitos que reaccionarán al globo
+        const papelitos = [];
+        for(let i=0;i<15;i++){
+          const p = document.createElement('div');
+          p.className = 'papel';
+          p.style.left = (50 + i*100) + 'px'; // distribuirlos horizontalmente
+          p.style.top = '350px'; // colocarlos abajo
+          escena.appendChild(p);
+          papelitos.push(p);
+        }
+
+        // Variables de control
+        let carga = 0;               // Carga actual del globo
+        let pegado = false;          // Si el globo está pegado a la pared
+        let arrastrando = false;     // Si el globo está siendo arrastrado
+        let arrastrandoDesc = false; // Si el descargador está siendo arrastrado
+        let offsetX, offsetY;        // Offset del mouse al arrastrar
+        let velocidadY = 0;          // Velocidad vertical para la gravedad
+        const gravedad = 0.4;        // Aceleración de gravedad
+
+        // Función que aplica gravedad al globo
+        function aplicarGravedad(){
+          if(!pegado && !arrastrando){ // si no está pegado ni arrastrando
+            let top = globo.offsetTop;
+            velocidadY += gravedad; // incrementar velocidad por gravedad
+            let nuevoTop = top + velocidadY;
+            const suelo = escena.offsetHeight - globo.offsetHeight;
+            if(nuevoTop >= suelo){ // limitar al suelo
+              nuevoTop = suelo;
+              velocidadY = 0;
+            }
+            globo.style.top = nuevoTop + "px";
+          }
+          
+          // Si carga negativa y toca pared, se queda pegado
+          if(carga < 0 && colision(globo, pared)){
+            pegado = true;
+            globo.style.left = (pared.offsetLeft - globo.offsetWidth) + 'px';
+          } else if(pegado && carga >= 0){
+            pegado = false;
+          }
+
+          requestAnimationFrame(aplicarGravedad); // animación continua
+        }
+        requestAnimationFrame(aplicarGravedad);
+
+        // Arrastrar el globo con el mouse
+        globo.addEventListener("mousedown", e => {
+          if(!pegado){
+            arrastrando = true;
+            offsetX = e.offsetX;
+            offsetY = e.offsetY;
+          }
+        });
+
+        // Arrastrar el descargador con el mouse
+        descargador.addEventListener("mousedown", e => {
+          arrastrandoDesc = true;
+          offsetX = e.offsetX;
+          offsetY = e.offsetY;
+        });
+
+        // Soltar elementos al levantar el mouse
+        document.addEventListener("mouseup", () => { 
+          arrastrando = false; 
+          arrastrandoDesc = false; 
+        });
+
+        // Movimiento de elementos al arrastrar
+        document.addEventListener("mousemove", e => {
+          const rect = escena.getBoundingClientRect();
+
+          // Movimiento del globo
+          if(arrastrando && !pegado){
+            let x = e.clientX - rect.left - offsetX;
+            let y = e.clientY - rect.top - offsetY;
+            // Limitar dentro de la escena
+            x = Math.max(0, Math.min(rect.width - globo.offsetWidth, x));
+            y = Math.max(0, Math.min(rect.height - globo.offsetHeight, y));
+            globo.style.left = x + "px";
+            globo.style.top = y + "px";
+
+            // Interacción con materiales
+            materiales.forEach(mat => {
+              if(colision(globo, mat)){
+                if(mat.id === 'plastico'){ // neutraliza carga
+                  carga = 0;
+                  actualizarCarga();
+                } else {
+                  soltarParticulas(mat); // generar partículas de carga
+                }
+              }
+            });
+          }
+
+          // Movimiento del descargador
+          if(arrastrandoDesc){
+            let x = e.clientX - rect.left - offsetX;
+            let y = e.clientY - rect.top - offsetY;
+            x = Math.max(0, Math.min(rect.width - descargador.offsetWidth, x));
+            y = Math.max(0, Math.min(rect.height - descargador.offsetHeight, y));
+            descargador.style.left = x + "px";
+            descargador.style.top = y + "px";
+
+            // Descargar globo si hay colisión
+            if(colision(globo, descargador)){
+              carga = 0;
+              actualizarCarga();
+              pegado = false;
+            }
+          }
+        });
+
+        // Actualiza la carga y el indicador en pantalla
+        function actualizarCarga(){
+          nivelCargaSpan.textContent = carga;
+          globo.textContent = carga > 0 ? '+' : (carga < 0 ? '-' : '0');
+        }
+
+        // Función para detectar colisión entre dos elementos
+        function colision(a, b){
+          const rectA = a.getBoundingClientRect();
+          const rectB = b.getBoundingClientRect();
+          return !(rectA.top > rectB.bottom || rectA.bottom < rectB.top || rectA.left > rectB.right || rectA.right < rectB.left);
+        }
+
+        // Genera partículas que representan la carga al frotar materiales
+        function soltarParticulas(mat){
+          const tipo = mat.dataset.charge;
+          if(tipo === '0') return; // material neutro no genera partículas
+          const p = document.createElement('span');
+          p.className = 'particula';
+          p.textContent = tipo;
+          p.style.top = (mat.offsetTop + Math.random()*60) + 'px';
+          p.style.left = (mat.offsetLeft + Math.random()*80) + 'px';
+          p.style.color = tipo==='+'?'red':'blue';
+          escena.appendChild(p);
+          animarParticula(p); // animación hacia el globo
+        }
+
+        // Animación de partículas hacia el globo
+        function animarParticula(p){
+          let x = parseFloat(p.style.left), y = parseFloat(p.style.top);
+          function mover(){
+            let dx = (globo.offsetLeft + globo.offsetWidth/2) - x;
+            let dy = (globo.offsetTop + globo.offsetHeight/2) - y;
+            x += dx*0.05; 
+            y += dy*0.05;
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+            if(Math.abs(dx)<5 && Math.abs(dy)<5){
+              p.remove();
+              if(p.textContent=='+') carga++; else if(p.textContent=='-') carga--;
+              actualizarCarga();
+            } else { 
+              requestAnimationFrame(mover); 
+            }
+          }
+          mover();
+        }
+
+        // Animar papelitos que reaccionan a la carga del globo
+        function animarPapelitos(){
+          papelitos.forEach(p => {
+            const gx = globo.offsetLeft + globo.offsetWidth/2;
+            const gy = globo.offsetTop + globo.offsetHeight/2;
+            const px = p.offsetLeft + p.offsetWidth/2;
+            const py = p.offsetTop + p.offsetHeight/2;
+            let dx = gx - px;
+            let dy = gy - py;
+            let dist = Math.sqrt(dx*dx + dy*dy);
+
+            // Solo si están cerca y hay carga
+            if(dist < 150 && carga !== 0){
+              let fuerza = (150 - dist)/150 * 2; // fuerza proporcional
+              if(carga > 0) fuerza = -fuerza; // repulsión si carga positiva
+              p.style.left = (p.offsetLeft + dx/dist*fuerza) + 'px';
+              p.style.top = (p.offsetTop + dy/dist*fuerza) + 'px';
+            }
+          });
+          requestAnimationFrame(animarPapelitos); // animación continua
+        }
+        requestAnimationFrame(animarPapelitos);
+
+        // Reiniciar el simulador
+        resetBtn.addEventListener('click', function() {
+          carga = 0;
+          pegado = false;
+          arrastrando = false;
+          arrastrandoDesc = false;
+          velocidadY = 0;
+          
+          // Restablecer posición del globo
+          globo.style.left = '250px';
+          globo.style.top = (escena.offsetHeight - globo.offsetHeight - 20) + 'px';
+          
+          // Restablecer posición del descargador
+          descargador.style.left = '100px';
+          descargador.style.top = '200px';
+          
+          // Restablecer papelitos
+          papelitos.forEach((p, i) => {
+            p.style.left = (50 + i*100) + 'px';
+            p.style.top = '350px';
+          });
+          
+          actualizarCarga();
+        });
+    </script>
+</body>
+</html>
