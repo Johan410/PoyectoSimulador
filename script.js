@@ -305,19 +305,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     canvas.addEventListener('mouseup', e => {
-        if (!arrastrando) {
-            const { x, y } = getMousePos(e);
-            const q_str = prompt('Introduce el valor de la carga en micro-Coulombs (µC). Usa negativo para carga negativa.', '1
-            const q_str = prompt('Introduce el valor de la carga en micro-Coulombs (µC). Usa negativo para carga negativa.', '1.0');
-            const q = parseFloat(q_str);
-            if (!isNaN(q)) {
-                cargas.push(new Carga(x, y, q));
-            }
+    if (!arrastrando) {
+        const { x, y } = getMousePos(e);
+        const q_str = prompt('Introduce el valor de la carga en micro-Coulombs (µC). Usa negativo para carga negativa.', '1.0');
+        const q = parseFloat(q_str);
+        if (!isNaN(q)) {
+            cargas.push(new Carga(x, y, q));
         }
-        arrastrando = false;
-        cargaSeleccionada = null;
-        dibujar();
-    });
+    }
+    arrastrando = false;
+    cargaSeleccionada = null;
+    dibujar();
+});
+
 
     // Doble clic para eliminar una carga
     canvas.addEventListener('dblclick', e => {
@@ -373,3 +373,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Iniciar la simulación (primer dibujado)
     dibujar();
 });
+
