@@ -1,33 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     // --- CONFIGURACIÓN INICIAL ---
     const canvas = document.getElementById('simCanvas');
     const ctx = canvas.getContext('2d');
 
+    // Ajustar tamaño del canvas al tamaño del CSS/DOM (si quieres responsivo)
+    function ajustarCanvas() {
+        // conserva el tamaño del canvas en pixeles igual al tamaño en CSS para evitar distorsión
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        dibujar();
+    }
+    window.addEventListener('resize', ajustarCanvas);
+    ajustarCanvas();
+
     // Constantes físicas
     const k = 8.9875517923e9; // Constante de Coulomb (N·m²/C²)
-    const ε0 = 8.854e-12; // Permitividad del vacío (F/m)
 
     // Estado de la simulación
     let cargas = [];
     let cargaSeleccionada = null;
     let arrastrando = false;
-    let mostrarSuperficieGaussiana = false;
 
-    // Objeto para la superficie gaussiana (un círculo)
-    let superficieGaussiana = { x: canvas.width / 2, y: canvas.height / 2, radio: 150 };
+    // Parámetros de visualización de líneas de campo (E2)
+    const seedPaso = 40;      // separación entre semillas de trazado
+    const stepSize = 4;       // paso en píxeles para el trazado (menor = más suave)
+    const maxSteps = 500;     // longitud máxima por línea
+    const minDistToCharge = 14; // distancia a partir de la cual consideramos que la línea "termina" al acercarse a una carga
+    const arrowEvery = 18;    // cada cuántos píxels (aprox) dibujar una flecha en la línea
 
     // --- CLASE PARA LAS CARGAS ---
     class Carga {
         constructor(x, y, q) {
-            this.id = Date.now(); // ID único para cada carga
+            this.id = Date.now() + Math.random(); // ID único para cada carga
             this.x = x;
             this.y = y;
-            this.q = q; // Carga en micro-Coulombs (µC)
-            this.radio = 12; // Radio visual
+            this.q = q; // en µC
+            this.radio = 12;
         }
 
-        // Dibuja la carga en el canvas
         dibujar() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radio, 0, 2 * Math.PI);
@@ -40,191 +50,266 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillText(this.q > 0 ? '+' : '−', this.x, this.y);
         }
 
-        // Comprueba si un punto (px, py) está dentro de la carga
         contiene(px, py) {
-            const dist = Math.sqrt((px - this.x) ** 2 + (py - this.y) ** 2);
+            const dist = Math.hypot(px - this.x, py - this.y);
             return dist < this.radio;
         }
     }
 
-    // --- FUNCIONES DE CÁLCULO FÍSICO ---
-
-    // Calcula el vector de campo eléctrico en un punto (x, y) por superposición
+    // --- CÁLCULOS FÍSICOS ---
     function calcularCampoElectricoEn(x, y) {
         let Ex = 0, Ey = 0;
-
-        cargas.forEach(c => {
+        for (const c of cargas) {
             const dx = x - c.x;
             const dy = y - c.y;
             const r2 = dx * dx + dy * dy;
-            
-            // Evitar división por cero si el punto está sobre la carga
-            if (r2 < 1) return;
-
+            if (r2 < 0.5) continue; // evita singularidad y contribuciones gigantes
             const r = Math.sqrt(r2);
-            const E = (k * c.q * 1e-6) / r2; // Convertir µC a C para el cálculo
+            // E = k * q / r^2 (q en C)
+            const E = (k * c.q * 1e-6) / r2;
             Ex += E * (dx / r);
             Ey += E * (dy / r);
-        });
-
+        }
         return { x: Ex, y: Ey };
     }
 
-    // Calcula la fuerza de Coulomb entre dos cargas
+    function campoNormalizadoEn(x, y) {
+        const E = calcularCampoElectricoEn(x, y);
+        const mag = Math.hypot(E.x, E.y);
+        if (mag === 0) return { x: 0, y: 0, mag: 0 };
+        return { x: E.x / mag, y: E.y / mag, mag };
+    }
+
     function calcularFuerzaCoulomb(c1, c2) {
         const dx = c1.x - c2.x;
         const dy = c1.y - c2.y;
         const r2 = dx * dx + dy * dy;
-        
-        if (r2 < 1) return 0; // Evitar división por cero
-        
-        // F = k * |q1 * q2| / r^2
-        const fuerza = (k * Math.abs(c1.q * 1e-6 * c2.q * 1e-6)) / r2;
-        return fuerza;
+        if (r2 < 1) return 0;
+        return (k * Math.abs(c1.q * 1e-6 * c2.q * 1e-6)) / r2;
     }
 
-    // Calcula la carga total encerrada por la superficie gaussiana
-    function calcularCargaEncerrada() {
-        let cargaTotal = 0;
-        cargas.forEach(c => {
-            const dist = Math.sqrt((c.x - superficieGaussiana.x) ** 2 + (c.y - superficieGaussiana.y) ** 2);
-            if (dist < superficieGaussiana.radio) {
-                cargaTotal += c.q;
-            }
-        });
-        return cargaTotal;
+    // --- DIBUJO DE LÍNEAS DE CAMPO (E2) ---
+    // Dibuja una flecha triangular en (x,y) orientada según angle, con tamaño size
+    function dibujarFlechaTriangular(x, y, angle, size, alpha = 1) {
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(x, y);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-size, size / 2);
+        ctx.lineTo(-size, -size / 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
     }
 
-    // --- FUNCIONES DE DIBUJO Y ACTUALIZACIÓN ---
+    // Comprueba si un punto está demasiado cerca de cualquier carga (para terminar la línea)
+    function cercaDeCarga(x, y, threshold = minDistToCharge) {
+        for (const c of cargas) {
+            if (Math.hypot(x - c.x, y - c.y) < threshold) return true;
+        }
+        return false;
+    }
 
-    // Dibuja el campo eléctrico como una cuadrícula de vectores
-    function dibujarCampoElectrico() {
-        const paso = 40; // Espaciado de la cuadrícula
-        for (let x = paso / 2; x < canvas.width; x += paso) {
-            for (let y = paso / 2; y < canvas.height; y += paso) {
-                const E = calcularCampoElectricoEn(x, y);
-                const magnitud = Math.sqrt(E.x ** 2 + E.y ** 2);
-                
-                if (magnitud < 1) continue;
+    // Traza una única línea de campo desde (sx,sy) en la dirección dada (forward = true) usando integración simple (RK2)
+    function trazarLineaDesde(sx, sy, forward = true) {
+        const puntos = [];
+        let x = sx, y = sy;
 
-                // Normalizar y escalar el vector para visualización
-                const Ex_norm = E.x / magnitud;
-                const Ey_norm = E.y / magnitud;
-                
-                // El color y la longitud dependen de la intensidad del campo
-                const logMag = Math.log10(magnitud);
-                const longitud = Math.min(logMag * 5, paso / 2);
-                const alpha = Math.min(logMag / 8, 0.8);
+        for (let step = 0; step < maxSteps; step++) {
+            const { x: nx, y: ny, mag } = campoNormalizadoEn(x, y);
+            if (mag === 0) break;
 
+            // si estamos trazando en sentido opuesto invertimos la dirección
+            const dirx = forward ? nx : -nx;
+            const diry = forward ? ny : -ny;
+
+            // RK2 (Heun) para mayor estabilidad
+            const k1x = dirx * stepSize;
+            const k1y = diry * stepSize;
+
+            const midx = x + k1x * 0.5;
+            const midy = y + k1y * 0.5;
+            const mid = campoNormalizadoEn(midx, midy);
+            const dirMidx = forward ? mid.x : -mid.x;
+            const dirMidy = forward ? mid.y : -mid.y;
+
+            const k2x = dirMidx * stepSize;
+            const k2y = dirMidy * stepSize;
+
+            const nxp = x + k2x;
+            const nyp = y + k2y;
+
+            // parar si salimos del canvas
+            if (nxp < 0 || nxp > canvas.width || nyp < 0 || nyp > canvas.height) break;
+
+            // añadir segmento
+            puntos.push({ x1: x, y1: y, x2: nxp, y2: nyp, dirx: dirMidx, diry: dirMidy });
+
+            // actualizar posición
+            x = nxp; y = nyp;
+
+            // terminar si nos acercamos mucho a una carga
+            if (cercaDeCarga(x, y)) break;
+        }
+
+        return puntos;
+    }
+
+    // Dibuja todas las líneas de campo usando semillas en una cuadrícula y evita repetir
+    function dibujarLineasDeCampo() {
+        // color y estilo
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(60, 180, 75, 0.9)'; // tono verde
+        ctx.fillStyle = 'rgba(60, 180, 75, 0.9)';
+
+        const visitedSeeds = new Set();
+
+        for (let sx = seedPaso / 2; sx < canvas.width; sx += seedPaso) {
+            for (let sy = seedPaso / 2; sy < canvas.height; sy += seedPaso) {
+                // evitar semillas que estén encima de una carga
+                if (cargas.some(c => Math.hypot(sx - c.x, sy - c.y) < c.radio + 6)) continue;
+
+                // use forward and backward traces to get a fuller line
+                const forward = trazarLineaDesde(sx, sy, true);
+                const backward = trazarLineaDesde(sx, sy, false).reverse();
+
+                // concatenamos: backward + forward para hacer una linea continua
+                const line = backward.concat(forward);
+
+                if (line.length < 1) continue;
+
+                // simple check para evitar dibujar casi-duplicados: hash del primer segmento
+                const hash = `${Math.round(line[0].x1/4)}_${Math.round(line[0].y1/4)}_${Math.round(line[line.length-1].x2/4)}_${Math.round(line[line.length-1].y2/4)}`;
+                if (visitedSeeds.has(hash)) continue;
+                visitedSeeds.add(hash);
+
+                // dibujar segmentos
                 ctx.beginPath();
-                ctx.moveTo(x, y);
-                ctx.lineTo(x + Ex_norm * longitud, y + Ey_norm * longitud);
-                ctx.strokeStyle = `rgba(144, 238, 144, ${alpha})`; // Verde claro transparente
+                for (let i = 0; i < line.length; i++) {
+                    const seg = line[i];
+                    ctx.moveTo(seg.x1, seg.y1);
+                    ctx.lineTo(seg.x2, seg.y2);
+                }
                 ctx.stroke();
+
+                // dibujar flechas a lo largo de la línea (cada cierto "avance" aproximado)
+                let acum = 0;
+                for (let i = 0; i < line.length; i++) {
+                    const seg = line[i];
+                    const segLen = Math.hypot(seg.x2 - seg.x1, seg.y2 - seg.y1);
+                    acum += segLen;
+                    if (acum >= arrowEvery) {
+                        acum = 0;
+                        const midx = (seg.x1 + seg.x2) / 2;
+                        const midy = (seg.y1 + seg.y2) / 2;
+                        const angle = Math.atan2(seg.diry, seg.dirx);
+                        // flecha proporcional al tamaño de segment (pero limitada)
+                        const asize = Math.min(10, Math.max(4, arrowEvery * 0.4));
+                        ctx.fillStyle = 'rgba(60, 180, 75, 0.95)';
+                        dibujarFlechaTriangular(midx, midy, angle, asize, 0.95);
+                    }
+                }
             }
         }
     }
 
-    // Dibuja la superficie gaussiana
-    function dibujarSuperficieGaussiana() {
-        if (!mostrarSuperficieGaussiana) return;
-        ctx.beginPath();
-        ctx.arc(superficieGaussiana.x, superficieGaussiana.y, superficieGaussiana.radio, 0, 2 * Math.PI);
-        ctx.strokeStyle = '#ffde59'; // Amarillo
-        ctx.setLineDash([5, 5]); // Línea punteada
-        ctx.stroke();
-        ctx.setLineDash([]); // Restablecer
+    // --- DIBUJOS AUXILIARES ---
+    // Dibuja también pequeños vectores de referencia (opcionalmente)
+    function dibujarMiniVectores() {
+        // Esto queda opcional/desactivado para E2 (dejamos solo las líneas)
     }
 
     // Bucle principal de dibujo
     function dibujar() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar canvas
-        dibujarCampoElectrico();
-        cargas.forEach(c => c.dibujar());
-        dibujarSuperficieGaussiana();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // dibujar líneas de campo (E2)
+        if (cargas.length > 0) dibujarLineasDeCampo();
+        // dibujar cargas encima
+        for (const c of cargas) c.dibujar();
+        // actualizar panel (si existe)
         actualizarPanelInfo();
     }
 
-    // Actualiza el panel de información (Ley de Gauss y lista de cargas)
+    // --- PANEL DE INFORMACIÓN (solo cosas útiles) ---
     function actualizarPanelInfo() {
-        // Actualizar Ley de Gauss
-        if (mostrarSuperficieGaussiana) {
-            const cargaEncerrada = calcularCargaEncerrada();
-            const flujo = (cargaEncerrada * 1e-6) / ε0; // Flujo = Q_enc / ε₀
-            document.getElementById('carga-encerrada').textContent = cargaEncerrada.toFixed(2);
-            document.getElementById('flujo-electrico').textContent = flujo.toExponential(2);
-            document.getElementById('info-gauss').classList.remove('hidden');
-        } else {
-            document.getElementById('info-gauss').classList.add('hidden');
+        // Lista de cargas
+        const listaCargasUI = document.getElementById('lista-cargas');
+        if (listaCargasUI) {
+            listaCargasUI.innerHTML = '';
+            cargas.forEach((c, idx) => {
+                const item = document.createElement('li');
+                item.dataset.id = c.id;
+                item.style.display = 'flex';
+                item.style.alignItems = 'center';
+                item.style.gap = '8px';
+
+                const colorBox = document.createElement('div');
+                colorBox.className = 'color-box';
+                colorBox.style.width = '12px';
+                colorBox.style.height = '12px';
+                colorBox.style.borderRadius = '3px';
+                colorBox.style.backgroundColor = c.q > 0 ? 'crimson' : 'royalblue';
+
+                item.appendChild(colorBox);
+                item.append(`Carga ${idx + 1} (${c.q.toFixed(1)} µC) — x:${Math.round(c.x)}, y:${Math.round(c.y)}`);
+                listaCargasUI.appendChild(item);
+            });
         }
 
-        // Actualizar lista de cargas
-        const listaCargasUI = document.getElementById('lista-cargas');
-        listaCargasUI.innerHTML = '';
-        cargas.forEach((c, index) => {
-            const item = document.createElement('li');
-            item.dataset.id = c.id;
-            
-            const colorBox = document.createElement('div');
-            colorBox.className = 'color-box';
-            colorBox.style.backgroundColor = c.q > 0 ? 'crimson' : 'royalblue';
-
-            item.appendChild(colorBox);
-            item.append(`Carga ${index + 1} (${c.q.toFixed(1)} µC)`);
-            
-            listaCargasUI.appendChild(item);
-        });
-
-        // Actualizar Ley de Coulomb
-        const cargasSeleccionadasCoulomb = document.querySelectorAll('#lista-cargas li.selected');
+        // Ley de Coulomb: si hay 2 seleccionadas
+        const cargasSeleccionadas = document.querySelectorAll('#lista-cargas li.selected');
         const infoCoulombUI = document.getElementById('info-coulomb');
-
-        if (cargasSeleccionadasCoulomb.length === 2) {
-            const id1 = Number(cargasSeleccionadasCoulomb[0].dataset.id);
-            const id2 = Number(cargasSeleccionadasCoulomb[1].dataset.id);
-            const carga1 = cargas.find(c => c.id === id1);
-            const carga2 = cargas.find(c => c.id === id2);
-
-            if (carga1 && carga2) {
-                const fuerza = calcularFuerzaCoulomb(carga1, carga2);
-                document.getElementById('coulomb-c1').textContent = Array.from(listaCargasUI.children).indexOf(cargasSeleccionadasCoulomb[0]) + 1;
-                document.getElementById('coulomb-c2').textContent = Array.from(listaCargasUI.children).indexOf(cargasSeleccionadasCoulomb[1]) + 1;
-                document.getElementById('fuerza-coulomb').textContent = fuerza.toExponential(2);
+        if (cargasSeleccionadas.length === 2 && infoCoulombUI) {
+            const id1 = Number(cargasSeleccionadas[0].dataset.id);
+            const id2 = Number(cargasSeleccionadas[1].dataset.id);
+            const c1 = cargas.find(c => c.id === id1);
+            const c2 = cargas.find(c => c.id === id2);
+            if (c1 && c2) {
+                const fuerza = calcularFuerzaCoulomb(c1, c2);
+                const el1 = document.getElementById('coulomb-c1');
+                const el2 = document.getElementById('coulomb-c2');
+                const elF = document.getElementById('fuerza-coulomb');
+                if (el1) el1.textContent = Array.from(listaCargasUI.children).indexOf(cargasSeleccionadas[0]) + 1;
+                if (el2) el2.textContent = Array.from(listaCargasUI.children).indexOf(cargasSeleccionadas[1]) + 1;
+                if (elF) elF.textContent = fuerza.toExponential(2);
                 infoCoulombUI.classList.remove('hidden');
             }
-        } else {
+        } else if (infoCoulombUI) {
             infoCoulombUI.classList.add('hidden');
         }
     }
 
     // --- MANEJO DE EVENTOS ---
-
-    // Clic del ratón
     canvas.addEventListener('mousedown', e => {
         const { x, y } = getMousePos(e);
         cargaSeleccionada = cargas.find(c => c.contiene(x, y)) || null;
         arrastrando = !!cargaSeleccionada;
     });
 
-    // Mover el ratón
     canvas.addEventListener('mousemove', e => {
         if (arrastrando && cargaSeleccionada) {
             const { x, y } = getMousePos(e);
             cargaSeleccionada.x = x;
             cargaSeleccionada.y = y;
             dibujar();
+        } else {
+            // Si quieres mostrar la magnitud del campo bajo el cursor en algún elemento
+            const pos = getMousePos(e);
+            const campo = calcularCampoElectricoEn(pos.x, pos.y);
+            const mag = Math.hypot(campo.x, campo.y);
+            const elMag = document.getElementById('campo-magnitud');
+            if (elMag) elMag.textContent = `|E|(x,y) = ${mag.toExponential(2)} N/C`;
         }
     });
 
-    // Soltar el clic del ratón
     canvas.addEventListener('mouseup', e => {
-        // Si no estábamos arrastrando, significa que fue un clic simple para crear una carga
         if (!arrastrando) {
             const { x, y } = getMousePos(e);
-            // Pide al usuario el valor de la carga
-            const q_str = prompt('Introduce el valor de la carga en micro-Coulombs (µC).\nUsa un valor negativo para una carga negativa.', '1.0');
+            const q_str = prompt('Introduce el valor de la carga en micro-Coulombs (µC). Usa negativo para carga negativa.', '1
+            const q_str = prompt('Introduce el valor de la carga en micro-Coulombs (µC). Usa negativo para carga negativa.', '1.0');
             const q = parseFloat(q_str);
-
             if (!isNaN(q)) {
                 cargas.push(new Carga(x, y, q));
             }
@@ -241,44 +326,50 @@ document.addEventListener('DOMContentLoaded', () => {
         dibujar();
     });
 
-    // Clic en los botones y la lista
-    document.getElementById('btn-reiniciar').addEventListener('click', () => {
-        cargas = [];
-        dibujar();
-    });
+    // Botón reiniciar (si existe en el DOM)
+    const btnReiniciar = document.getElementById('btn-reiniciar');
+    if (btnReiniciar) {
+        btnReiniciar.addEventListener('click', () => {
+            cargas = [];
+            dibujar();
+        });
+    }
 
-    document.getElementById('btn-gauss').addEventListener('click', () => {
-        mostrarSuperficieGaussiana = !mostrarSuperficieGaussiana;
-        dibujar();
-    });
-
-    document.getElementById('lista-cargas').addEventListener('click', e => {
-        if (e.target.tagName === 'LI') {
+    // Manejo de selección en la lista de cargas (para la Ley de Coulomb)
+    const listaCargasEl = document.getElementById('lista-cargas');
+    if (listaCargasEl) {
+        listaCargasEl.addEventListener('click', e => {
+            // permitir seleccionar solo li
+            let target = e.target;
+            while (target && target.tagName !== 'LI') {
+                target = target.parentElement;
+            }
+            if (!target) return;
             const seleccionados = document.querySelectorAll('#lista-cargas li.selected');
-            if (e.target.classList.contains('selected')) {
-                e.target.classList.remove('selected');
+            if (target.classList.contains('selected')) {
+                target.classList.remove('selected');
             } else {
                 if (seleccionados.length < 2) {
-                    e.target.classList.add('selected');
+                    target.classList.add('selected');
                 } else {
-                    // Si ya hay dos, quita el primero y añade el nuevo
+                    // quita el primero y añade el nuevo
                     seleccionados[0].classList.remove('selected');
-                    e.target.classList.add('selected');
+                    target.classList.add('selected');
                 }
             }
             actualizarPanelInfo();
-        }
-    });
+        });
+    }
 
     // Obtiene las coordenadas del ratón relativas al canvas
     function getMousePos(evt) {
         const rect = canvas.getBoundingClientRect();
         return {
-            x: evt.clientX - rect.left,
-            y: evt.clientY - rect.top
+            x: (evt.clientX - rect.left) * (canvas.width / rect.width),
+            y: (evt.clientY - rect.top) * (canvas.height / rect.height)
         };
     }
 
-    // Iniciar la simulación
+    // Iniciar la simulación (primer dibujado)
     dibujar();
 });
