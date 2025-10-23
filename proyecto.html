@@ -951,16 +951,15 @@
               nivelCargaSpan = document.getElementById("nivelCarga"),
               resetBtn = document.getElementById("resetSimulador");
 
-        // Crear papelitos que reaccionarán al globo
-        const papelitos = [];
-        for(let i=0;i<15;i++){
-          const p = document.createElement('div');
-          p.className = 'papel';
-          p.style.left = (50 + i*100) + 'px'; // distribuirlos horizontalmente
-          p.style.top = '350px'; // colocarlos abajo
-          escena.appendChild(p);
-          papelitos.push(p);
-        }
+       const papelitos = [];
+  for(let i=0;i<15;i++){
+    const p = document.createElement('div');
+    p.className = 'papel';
+    p.style.left = (50 + i*100) + 'px'; // distribuir horizontalmente
+    p.style.top = '350px'; // colocarlos abajo
+    escena.appendChild(p);
+    papelitos.push(p);
+  }
 
         // Variables de control
         let carga = 0;               // Carga actual del globo
@@ -1163,4 +1162,5 @@
 </body>
 
 </html>
+
 
