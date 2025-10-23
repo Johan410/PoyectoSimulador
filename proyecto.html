@@ -433,8 +433,8 @@
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmRAYaLQFrGSYRtiwn393fvP1BwmRLTmrfAQ&s'); 
             top: 20px; left: 250px; 
         }
-        #plastico { 
-            background-image: url('https://bolsasdulmar.com.mx/wp-content/uploads/2023/11/Bolsas-de-polietileno-solucion-1536x1025-1.webp'); 
+        #tierra { 
+            background-image: url('https://definicion.de/wp-content/uploads/2009/01/tierra-1.jpg'); 
             top: 20px; left: 450px; 
         }
 
@@ -849,7 +849,7 @@
                         <div id="globo">0</div>
                         <div id="lana" class="material" data-charge="+"></div>
                         <div id="seda" class="material" data-charge="-"></div>
-                        <div id="plastico" class="material" data-charge="0"></div>
+                        <div id="tierra" class="material" data-charge="0"></div>
                         <div id="pared"></div>
                         <div id="descargador" class="descargador"></div>
                     </div>
@@ -1035,7 +1035,7 @@
             // Interacción con materiales
             materiales.forEach(mat => {
               if(colision(globo, mat)){
-                if(mat.id === 'plastico'){ // neutraliza carga
+                if(mat.id === 'tierra'){ // neutraliza carga
                   carga = 0;
                   actualizarCarga();
                 } else {
@@ -1162,5 +1162,6 @@
 </body>
 
 </html>
+
 
 
