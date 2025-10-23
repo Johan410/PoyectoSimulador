@@ -367,15 +367,20 @@
         }
         
         /* Estilos del simulador de carga eléctrica */
-        #escena {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            border: 2px solid #444;
-            background: #f4faff;
-            overflow: hidden;
-            margin: 0 auto;
-        }
+         /* Fondo de la escena */
+  #escena {
+      position: relative;
+      width: 100%;
+      height: 450px;
+      border: 2px solid #444;
+      background-image: url('https://img.freepik.com/vector-gratis/fondo-clase-escuela-vacia_52683-47681.jpg?semt=ais_hybrid&w=740&q=80');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      margin: 0 auto;
+  }
+
+
 
         #globo {
             width: 110px;
@@ -460,13 +465,14 @@
             cursor: grab;
         }
 
-        .papel {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: rgb(69, 223, 98);
-            border-radius: 3px;
-        }
+       /* Papeles blancos y circulares */
+      .papel {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      }
         
         .simulator-controls {
             display: flex;
@@ -1157,3 +1163,4 @@
 </body>
 
 </html>
+
