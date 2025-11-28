@@ -70,6 +70,25 @@
             font-weight: bold;
         }
         
+        /* Estilos para el video de YouTube Short */
+        .video-short-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 5px solid #ffd93d;
+        }
+        
+        .video-short {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
         nav {
             background: rgba(74, 107, 255, 0.9);
             margin: 20px 0;
@@ -759,6 +778,21 @@
     </header>
     
     <div class="container">
+        <!-- Video de YouTube Short agregado aquí -->
+        <div class="video-short-container">
+            <div class="video-short">
+                <iframe 
+                    width="315" 
+                    height="560" 
+                    src="https://www.youtube.com/embed/VdMfl_7zjsk" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        
         <nav>
             <ul>
                 <li><a href="#intro">¿Qué es la electricidad?</a></li>
