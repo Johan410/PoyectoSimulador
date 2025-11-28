@@ -367,20 +367,17 @@
         }
         
         /* Estilos del simulador de carga eléctrica */
-         /* Fondo de la escena */
-  #escena {
-      position: relative;
-      width: 100%;
-      height: 450px;
-      border: 2px solid #444;
-      background-image: url('https://img.freepik.com/vector-gratis/fondo-clase-escuela-vacia_52683-47681.jpg?semt=ais_hybrid&w=740&q=80');
-      background-size: cover;
-      background-position: center;
-      overflow: hidden;
-      margin: 0 auto;
-  }
-
-
+        #escena {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border: 2px solid #444;
+            background-image: url('https://img.freepik.com/vector-gratis/fondo-clase-escuela-vacia_52683-47681.jpg?semt=ais_hybrid&w=740&q=80');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            margin: 0 auto;
+        }
 
         #globo {
             width: 110px;
@@ -466,13 +463,13 @@
         }
 
        /* Papeles blancos y circulares */
-      .papel {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: white;
-      border-radius: 50%;
-      }
+        .papel {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+        }
         
         .simulator-controls {
             display: flex;
@@ -535,6 +532,161 @@
             display: block;
         }
 
+        /* Estilos del simulador de gato electrostático */
+        .gato-container {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .gato-container h1 { 
+            color: #4a00e0; 
+            margin-top: 0; 
+            font-size: 1.8rem;
+        }
+
+        .gato-container #status { 
+            margin-bottom: 20px; 
+        }
+        
+        .gato-container #charge-bar-container {
+            width: 100%; 
+            height: 30px;
+            background: #eee; 
+            border-radius: 15px;
+            overflow: hidden; 
+            border: 2px solid #ddd;
+        }
+        
+        .gato-container #charge-bar-inner {
+            width: 0%; 
+            height: 100%;
+            background: #00bfff;
+            border-radius: 15px 0 0 15px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: white; 
+            font-weight: bold; 
+            font-size: 14px;
+        }
+
+        .gato-container #game-area {
+            position: relative;
+            width: 100%; 
+            height: 400px;
+            border: 3px dotted #aaa; 
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+            background-image: url("https://img.freepik.com/vector-gratis/fondo-clase-escuela-vacia_52683-47681.jpg?semt=ais_hybrid&w=740&q=80");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gato-container .objeto-wrapper { 
+            position: absolute; 
+            object-fit: contain; 
+        }
+        
+        .gato-container .objeto-wrapper img { 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+        }
+
+        .gato-container .draggable { 
+            cursor: grab; 
+            user-select: none; 
+        }
+        
+        .gato-container .draggable:active { 
+            cursor: grabbing; 
+        }
+
+        /* MEJORA: Rayo más realista */
+        .gato-container .lightning-segment {
+            position: absolute;
+            background: linear-gradient(to right, #00ffff, #ffffff, #00ffff);
+            height: 4px;
+            transform-origin: left center;
+            z-index: 100;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            animation: lightningFlash 0.3s ease-out;
+        }
+
+        @keyframes lightningFlash {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .gato-container .glow {
+            filter: drop-shadow(0 0 10px #ffff00) drop-shadow(0 0 20px #ffaa00);
+            animation: pulse 1s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { filter: drop-shadow(0 0 10px #ffff00) drop-shadow(0 0 20px #ffaa00); }
+            to { filter: drop-shadow(0 0 15px #ffff00) drop-shadow(0 0 30px #ffaa00); }
+        }
+
+        .gato-container .charge-particle {
+            position: absolute;
+            width: 18px; 
+            height: 18px;
+            border-radius: 50%;
+            font-size: 14px; 
+            font-weight: bold;
+            display: none;
+            justify-content: center; 
+            align-items: center;
+            color: white; 
+            pointer-events: none; 
+            z-index: 15; 
+            opacity: 0.8;
+        }
+        
+        .gato-container .minus { 
+            background: #007bff; 
+            border:1px solid #0056b3; 
+        }
+        
+        .gato-container .plus { 
+            background: #dc3545; 
+            border:1px solid #a71d2a; 
+        }
+
+        .gato-container .big-spark {
+            position: absolute; 
+            width: 15px; 
+            height: 15px;
+            background: #00ffff; 
+            border:2px solid white;
+            border-radius:50%; 
+            opacity:0; 
+            animation: bigSparkFade 0.7s ease; 
+            pointer-events:none; 
+            z-index:20;
+        }
+        
+        @keyframes bigSparkFade {
+            from { opacity:1; transform: scale(0.5); }
+            to { opacity:0; transform: scale(2.5); }
+        }
+
+        /* Tamaños y posiciones de objetos */
+        .gato-container #gatoA-wrapper { width:100px; height:80px; top:150px; left:100px; z-index:10; }
+        .gato-container #manoAbierta-wrapper { width:50px; height:70px; top:50px; left:300px; z-index:5; }
+        .gato-container #peluche-wrapper { width:60px; height:60px; top:180px; left:450px; z-index:5; }
+        .gato-container #gatoB-wrapper { width:90px; height:70px; top:280px; left:250px; z-index:5; }
+        .gato-container #cama-wrapper { width:200px; height:100px; bottom:20px; right:20px; z-index:4; }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -582,6 +734,16 @@
             #plastico { 
                 top: 20px; left: 280px; 
             }
+            
+            .gato-container #game-area {
+                height: 300px;
+            }
+            
+            .gato-container #gatoA-wrapper { width:80px; height:60px; top:120px; left:80px; }
+            .gato-container #manoAbierta-wrapper { width:40px; height:50px; top:40px; left:240px; }
+            .gato-container #peluche-wrapper { width:50px; height:50px; top:140px; left:360px; }
+            .gato-container #gatoB-wrapper { width:70px; height:50px; top:220px; left:200px; }
+            .gato-container #cama-wrapper { width:160px; height:80px; bottom:15px; right:15px; }
         }
     </style>
 </head>
@@ -762,13 +924,14 @@
                 <div style="width: 100px; height: 100px; background: #ff6b6b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white;">🎮</div>
                 <div class="character-text">
                     <div class="character-name">Simulador de Electricidad</div>
-                    <p>¡Hola! Ahora puedes jugar con estos dos simuladores para entender mejor la electricidad. El primero te muestra campos eléctricos y el segundo te permite experimentar con cargas eléctricas usando un globo.</p>
+                    <p>¡Hola! Ahora puedes jugar con estos tres simuladores para entender mejor la electricidad. El primero te muestra campos eléctricos, el segundo te permite experimentar con cargas eléctricas usando un globo, y el tercero te muestra cómo se comporta un gato con electricidad estática.</p>
                 </div>
             </div>
             
             <div class="simulator-tabs">
                 <div class="simulator-tab active" data-tab="campos">Simulador de Campos Eléctricos</div>
                 <div class="simulator-tab" data-tab="globo">Simulador de Cargas con Globo</div>
+                <div class="simulator-tab" data-tab="gato">Simulador de Gato Electroestático</div>
             </div>
             
             <!-- Simulador de Campos Eléctricos (original) -->
@@ -856,6 +1019,56 @@
                     <div class="simulator-controls">
                         <div class="carga-info">Carga del globo: <span id="nivelCarga">0</span></div>
                         <button class="reset-btn" id="resetSimulador">Reiniciar Simulador</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Simulador de Gato Electroestático (nuevo) -->
+            <div class="simulator-content" id="gato-simulator">
+                <div class="simulator-instructions">
+                    <h3>¿Cómo usar el simulador de gato electroestático?</h3>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div>Arrastra al gato principal sobre los objetos (peluche, otro gato, cama) para cargarlo</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div>Observa cómo aumenta la carga del gato al frotarse con los objetos</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div>Cuando el gato tenga suficiente carga, acércalo a la mano para generar una chispa</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div>Mira cómo se crean rayos eléctricos entre el gato y la mano</div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">5</div>
+                        <div>¡Experimenta con diferentes objetos y velocidades!</div>
+                    </div>
+                </div>
+                
+                <div class="simulator-container">
+                    <div class="gato-container">
+                        <h1>Simulador de Gato Electroestático 5.3 - Mejorado (Doble Carga)</h1>
+                        <div id="status">
+                            <strong>Nivel de Carga:</strong>
+                            <div id="charge-bar-container"><div id="charge-bar-inner">0 Carga</div></div>
+                        </div>
+
+                        <div id="game-area">
+                            <div id="gatoA-wrapper" class="objeto-wrapper draggable"><div style="font-size: 60px; text-align: center;">🐱</div></div>
+                            <div id="manoAbierta-wrapper" class="objeto-wrapper draggable discharge-target"><div style="font-size: 40px; text-align: center;">👋</div></div>
+                            <div id="peluche-wrapper" class="objeto-wrapper draggable charge-source"><div style="font-size: 40px; text-align: center;">🧸</div></div>
+                            <div id="gatoB-wrapper" class="objeto-wrapper draggable charge-source"><div style="font-size: 50px; text-align: center;">🐈</div></div>
+                            <div id="cama-wrapper" class="objeto-wrapper draggable charge-source"><div style="font-size: 60px; text-align: center;">🛏️</div></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -951,15 +1164,15 @@
               nivelCargaSpan = document.getElementById("nivelCarga"),
               resetBtn = document.getElementById("resetSimulador");
 
-       const papelitos = [];
-  for(let i=0;i<15;i++){
-    const p = document.createElement('div');
-    p.className = 'papel';
-    p.style.left = (50 + i*100) + 'px'; // distribuir horizontalmente
-    p.style.top = '350px'; // colocarlos abajo
-    escena.appendChild(p);
-    papelitos.push(p);
-  }
+        const papelitos = [];
+        for(let i=0;i<15;i++){
+            const p = document.createElement('div');
+            p.className = 'papel';
+            p.style.left = (50 + i*100) + 'px'; // distribuir horizontalmente
+            p.style.top = '350px'; // colocarlos abajo
+            escena.appendChild(p);
+            papelitos.push(p);
+        }
 
         // Variables de control
         let carga = 0;               // Carga actual del globo
@@ -972,197 +1185,418 @@
 
         // Función que aplica gravedad al globo
         function aplicarGravedad(){
-          if(!pegado && !arrastrando){ // si no está pegado ni arrastrando
-            let top = globo.offsetTop;
-            velocidadY += gravedad; // incrementar velocidad por gravedad
-            let nuevoTop = top + velocidadY;
-            const suelo = escena.offsetHeight - globo.offsetHeight;
-            if(nuevoTop >= suelo){ // limitar al suelo
-              nuevoTop = suelo;
-              velocidadY = 0;
+            if(!pegado && !arrastrando){ // si no está pegado ni arrastrando
+                let top = globo.offsetTop;
+                velocidadY += gravedad; // incrementar velocidad por gravedad
+                let nuevoTop = top + velocidadY;
+                const suelo = escena.offsetHeight - globo.offsetHeight;
+                if(nuevoTop >= suelo){ // limitar al suelo
+                    nuevoTop = suelo;
+                    velocidadY = 0;
+                }
+                globo.style.top = nuevoTop + "px";
             }
-            globo.style.top = nuevoTop + "px";
-          }
-          
-          // Si carga negativa y toca pared, se queda pegado
-          if(carga < 0 && colision(globo, pared)){
-            pegado = true;
-            globo.style.left = (pared.offsetLeft - globo.offsetWidth) + 'px';
-          } else if(pegado && carga >= 0){
-            pegado = false;
-          }
+            
+            // Si carga negativa y toca pared, se queda pegado
+            if(carga < 0 && colision(globo, pared)){
+                pegado = true;
+                globo.style.left = (pared.offsetLeft - globo.offsetWidth) + 'px';
+            } else if(pegado && carga >= 0){
+                pegado = false;
+            }
 
-          requestAnimationFrame(aplicarGravedad); // animación continua
+            requestAnimationFrame(aplicarGravedad); // animación continua
         }
         requestAnimationFrame(aplicarGravedad);
 
         // Arrastrar el globo con el mouse
         globo.addEventListener("mousedown", e => {
-          if(!pegado){
-            arrastrando = true;
-            offsetX = e.offsetX;
-            offsetY = e.offsetY;
-          }
+            if(!pegado){
+                arrastrando = true;
+                offsetX = e.offsetX;
+                offsetY = e.offsetY;
+            }
         });
 
         // Arrastrar el descargador con el mouse
         descargador.addEventListener("mousedown", e => {
-          arrastrandoDesc = true;
-          offsetX = e.offsetX;
-          offsetY = e.offsetY;
+            arrastrandoDesc = true;
+            offsetX = e.offsetX;
+            offsetY = e.offsetY;
         });
 
         // Soltar elementos al levantar el mouse
         document.addEventListener("mouseup", () => { 
-          arrastrando = false; 
-          arrastrandoDesc = false; 
+            arrastrando = false; 
+            arrastrandoDesc = false; 
         });
 
         // Movimiento de elementos al arrastrar
         document.addEventListener("mousemove", e => {
-          const rect = escena.getBoundingClientRect();
+            const rect = escena.getBoundingClientRect();
 
-          // Movimiento del globo
-          if(arrastrando && !pegado){
-            let x = e.clientX - rect.left - offsetX;
-            let y = e.clientY - rect.top - offsetY;
-            // Limitar dentro de la escena
-            x = Math.max(0, Math.min(rect.width - globo.offsetWidth, x));
-            y = Math.max(0, Math.min(rect.height - globo.offsetHeight, y));
-            globo.style.left = x + "px";
-            globo.style.top = y + "px";
+            // Movimiento del globo
+            if(arrastrando && !pegado){
+                let x = e.clientX - rect.left - offsetX;
+                let y = e.clientY - rect.top - offsetY;
+                // Limitar dentro de la escena
+                x = Math.max(0, Math.min(rect.width - globo.offsetWidth, x));
+                y = Math.max(0, Math.min(rect.height - globo.offsetHeight, y));
+                globo.style.left = x + "px";
+                globo.style.top = y + "px";
 
-            // Interacción con materiales
-            materiales.forEach(mat => {
-              if(colision(globo, mat)){
-                if(mat.id === 'tierra'){ // neutraliza carga
-                  carga = 0;
-                  actualizarCarga();
-                } else {
-                  soltarParticulas(mat); // generar partículas de carga
-                }
-              }
-            });
-          }
-
-          // Movimiento del descargador
-          if(arrastrandoDesc){
-            let x = e.clientX - rect.left - offsetX;
-            let y = e.clientY - rect.top - offsetY;
-            x = Math.max(0, Math.min(rect.width - descargador.offsetWidth, x));
-            y = Math.max(0, Math.min(rect.height - descargador.offsetHeight, y));
-            descargador.style.left = x + "px";
-            descargador.style.top = y + "px";
-
-            // Descargar globo si hay colisión
-            if(colision(globo, descargador)){
-              carga = 0;
-              actualizarCarga();
-              pegado = false;
+                // Interacción con materiales
+                materiales.forEach(mat => {
+                    if(colision(globo, mat)){
+                        if(mat.id === 'tierra'){ // neutraliza carga
+                            carga = 0;
+                            actualizarCarga();
+                        } else {
+                            soltarParticulas(mat); // generar partículas de carga
+                        }
+                    }
+                });
             }
-          }
+
+            // Movimiento del descargador
+            if(arrastrandoDesc){
+                let x = e.clientX - rect.left - offsetX;
+                let y = e.clientY - rect.top - offsetY;
+                x = Math.max(0, Math.min(rect.width - descargador.offsetWidth, x));
+                y = Math.max(0, Math.min(rect.height - descargador.offsetHeight, y));
+                descargador.style.left = x + "px";
+                descargador.style.top = y + "px";
+
+                // Descargar globo si hay colisión
+                if(colision(globo, descargador)){
+                    carga = 0;
+                    actualizarCarga();
+                    pegado = false;
+                }
+            }
         });
 
         // Actualiza la carga y el indicador en pantalla
         function actualizarCarga(){
-          nivelCargaSpan.textContent = carga;
-          globo.textContent = carga > 0 ? '+' : (carga < 0 ? '-' : '0');
+            nivelCargaSpan.textContent = carga;
+            globo.textContent = carga > 0 ? '+' : (carga < 0 ? '-' : '0');
         }
 
         // Función para detectar colisión entre dos elementos
         function colision(a, b){
-          const rectA = a.getBoundingClientRect();
-          const rectB = b.getBoundingClientRect();
-          return !(rectA.top > rectB.bottom || rectA.bottom < rectB.top || rectA.left > rectB.right || rectA.right < rectB.left);
+            const rectA = a.getBoundingClientRect();
+            const rectB = b.getBoundingClientRect();
+            return !(rectA.top > rectB.bottom || rectA.bottom < rectB.top || rectA.left > rectB.right || rectA.right < rectB.left);
         }
 
         // Genera partículas que representan la carga al frotar materiales
         function soltarParticulas(mat){
-          const tipo = mat.dataset.charge;
-          if(tipo === '0') return; // material neutro no genera partículas
-          const p = document.createElement('span');
-          p.className = 'particula';
-          p.textContent = tipo;
-          p.style.top = (mat.offsetTop + Math.random()*60) + 'px';
-          p.style.left = (mat.offsetLeft + Math.random()*80) + 'px';
-          p.style.color = tipo==='+'?'red':'blue';
-          escena.appendChild(p);
-          animarParticula(p); // animación hacia el globo
+            const tipo = mat.dataset.charge;
+            if(tipo === '0') return; // material neutro no genera partículas
+            const p = document.createElement('span');
+            p.className = 'particula';
+            p.textContent = tipo;
+            p.style.top = (mat.offsetTop + Math.random()*60) + 'px';
+            p.style.left = (mat.offsetLeft + Math.random()*80) + 'px';
+            p.style.color = tipo==='+'?'red':'blue';
+            escena.appendChild(p);
+            animarParticula(p); // animación hacia el globo
         }
 
         // Animación de partículas hacia el globo
         function animarParticula(p){
-          let x = parseFloat(p.style.left), y = parseFloat(p.style.top);
-          function mover(){
-            let dx = (globo.offsetLeft + globo.offsetWidth/2) - x;
-            let dy = (globo.offsetTop + globo.offsetHeight/2) - y;
-            x += dx*0.05; 
-            y += dy*0.05;
-            p.style.left = x + 'px';
-            p.style.top = y + 'px';
-            if(Math.abs(dx)<5 && Math.abs(dy)<5){
-              p.remove();
-              if(p.textContent=='+') carga++; else if(p.textContent=='-') carga--;
-              actualizarCarga();
-            } else { 
-              requestAnimationFrame(mover); 
+            let x = parseFloat(p.style.left), y = parseFloat(p.style.top);
+            function mover(){
+                let dx = (globo.offsetLeft + globo.offsetWidth/2) - x;
+                let dy = (globo.offsetTop + globo.offsetHeight/2) - y;
+                x += dx*0.05; 
+                y += dy*0.05;
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+                if(Math.abs(dx)<5 && Math.abs(dy)<5){
+                    p.remove();
+                    if(p.textContent=='+') carga++; else if(p.textContent=='-') carga--;
+                    actualizarCarga();
+                } else { 
+                    requestAnimationFrame(mover); 
+                }
             }
-          }
-          mover();
+            mover();
         }
 
         // Animar papelitos que reaccionan a la carga del globo
         function animarPapelitos(){
-          papelitos.forEach(p => {
-            const gx = globo.offsetLeft + globo.offsetWidth/2;
-            const gy = globo.offsetTop + globo.offsetHeight/2;
-            const px = p.offsetLeft + p.offsetWidth/2;
-            const py = p.offsetTop + p.offsetHeight/2;
-            let dx = gx - px;
-            let dy = gy - py;
-            let dist = Math.sqrt(dx*dx + dy*dy);
+            papelitos.forEach(p => {
+                const gx = globo.offsetLeft + globo.offsetWidth/2;
+                const gy = globo.offsetTop + globo.offsetHeight/2;
+                const px = p.offsetLeft + p.offsetWidth/2;
+                const py = p.offsetTop + p.offsetHeight/2;
+                let dx = gx - px;
+                let dy = gy - py;
+                let dist = Math.sqrt(dx*dx + dy*dy);
 
-            // Solo si están cerca y hay carga
-            if(dist < 150 && carga !== 0){
-              let fuerza = (150 - dist)/150 * 2; // fuerza proporcional
-              if(carga > 0) fuerza = -fuerza; // repulsión si carga positiva
-              p.style.left = (p.offsetLeft + dx/dist*fuerza) + 'px';
-              p.style.top = (p.offsetTop + dy/dist*fuerza) + 'px';
-            }
-          });
-          requestAnimationFrame(animarPapelitos); // animación continua
+                // Solo si están cerca y hay carga
+                if(dist < 150 && carga !== 0){
+                    let fuerza = (150 - dist)/150 * 2; // fuerza proporcional
+                    if(carga > 0) fuerza = -fuerza; // repulsión si carga positiva
+                    p.style.left = (p.offsetLeft + dx/dist*fuerza) + 'px';
+                    p.style.top = (p.offsetTop + dy/dist*fuerza) + 'px';
+                }
+            });
+            requestAnimationFrame(animarPapelitos); // animación continua
         }
         requestAnimationFrame(animarPapelitos);
 
         // Reiniciar el simulador
         resetBtn.addEventListener('click', function() {
-          carga = 0;
-          pegado = false;
-          arrastrando = false;
-          arrastrandoDesc = false;
-          velocidadY = 0;
-          
-          // Restablecer posición del globo
-          globo.style.left = '250px';
-          globo.style.top = (escena.offsetHeight - globo.offsetHeight - 20) + 'px';
-          
-          // Restablecer posición del descargador
-          descargador.style.left = '100px';
-          descargador.style.top = '200px';
-          
-          // Restablecer papelitos
-          papelitos.forEach((p, i) => {
-            p.style.left = (50 + i*100) + 'px';
-            p.style.top = '350px';
-          });
-          
-          actualizarCarga();
+            carga = 0;
+            pegado = false;
+            arrastrando = false;
+            arrastrandoDesc = false;
+            velocidadY = 0;
+            
+            // Restablecer posición del globo
+            globo.style.left = '250px';
+            globo.style.top = (escena.offsetHeight - globo.offsetHeight - 20) + 'px';
+            
+            // Restablecer posición del descargador
+            descargador.style.left = '100px';
+            descargador.style.top = '200px';
+            
+            // Restablecer papelitos
+            papelitos.forEach((p, i) => {
+                p.style.left = (50 + i*100) + 'px';
+                p.style.top = '350px';
+            });
+            
+            actualizarCarga();
+        });
+
+        // Código para el simulador de gato electrostático
+        document.addEventListener('DOMContentLoaded',()=>{
+            // --- ÚNICO CAMBIO AQUÍ ---
+            const MAX_CHARGE=500; // Se duplicó de 100 a 200
+            // -------------------------
+
+            let chargeLevel=0,isDragging=false,isCharging=false,activeDraggable=null,lastMousePos={x:0,y:0};
+
+            const cat=document.getElementById('gatoA-wrapper');
+            const hand=document.getElementById('manoAbierta-wrapper');
+            const gameArea=document.getElementById('game-area');
+            const chargeBar=document.getElementById('charge-bar-inner');
+
+            const draggables=document.querySelectorAll('.draggable');
+            const chargeSources=document.querySelectorAll('.charge-source');
+            const dischargeTargets=document.querySelectorAll('.discharge-target');
+            const chargeSourceParticles=new Map();
+
+            function createParticlesForCat(){for(let i=0;i<MAX_CHARGE;i++)createChargeParticle('-',cat);}
+            function createChargeParticle(type,wrapper){
+                const particle=document.createElement('div');
+                particle.className='charge-particle '+(type==='+'?'plus':'minus');
+                particle.textContent=type;
+                particle.style.left=`${Math.random()*80+10}%`;
+                particle.style.top=`${Math.random()*80+10}%`;
+                wrapper.appendChild(particle);
+                return particle;
+            }
+
+            function initParticles(){
+                chargeSources.forEach(source=>{
+                    chargeSourceParticles.set(source,[]);
+                    for(let i=0;i<MAX_CHARGE;i++){
+                        const p=createChargeParticle('+',source);
+                        chargeSourceParticles.get(source).push(p);
+                    }
+                });
+                createParticlesForCat();
+            }
+
+            function updateChargeBar(){
+                const p=(chargeLevel/MAX_CHARGE)*100;
+                chargeBar.style.width=p+'%';
+                chargeBar.textContent=`${Math.round(chargeLevel)} Carga`;
+                chargeBar.style.backgroundColor=`hsl(${200-p*2},100%,50%)`;
+                if(p>70)cat.classList.add('glow');else cat.classList.remove('glow');
+            }
+
+            function updateParticleVisibility(wrapper,amount,isPositive=false){
+                let particles=isPositive?chargeSourceParticles.get(wrapper):wrapper.querySelectorAll('.minus');
+                if(!particles)return;
+                for(let i=0;i<particles.length;i++)particles[i].style.display=(i<Math.floor(amount)?'flex':'none');
+            }
+
+            function increaseCharge(amount,source){
+                if(chargeLevel<MAX_CHARGE){
+                    chargeLevel=Math.min(MAX_CHARGE,chargeLevel+amount);
+                    updateParticleVisibility(cat,chargeLevel);
+                    updateParticleVisibility(source,chargeLevel,true);
+                    updateChargeBar();
+                }
+            }
+
+            function discharge(){
+                chargeLevel=0;
+                updateChargeBar();
+                updateParticleVisibility(cat,0);
+                chargeSources.forEach(source=>updateParticleVisibility(source,0,true));
+            }
+
+            function getDistance(el1,el2){
+                const r1=el1.getBoundingClientRect(),r2=el2.getBoundingClientRect();
+                const c1={x:r1.left+r1.width/2,y:r1.top+r1.height/2};
+                const c2={x:r2.left+r2.width/2,y:r2.top+r2.height/2};
+                const dx=c1.x-c2.x,dy=c1.y-c2.y;
+                return Math.sqrt(dx*dx+dy*dy);
+            }
+
+            // MEJORA: Función para crear un rayo más realista con múltiples segmentos
+            function createLightningBolt(startX, startY, endX, endY, segments = 10) {
+                // Calcular la distancia total y el ángulo
+                const dx = endX - startX;
+                const dy = endY - startY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx);
+                
+                // Crear segmentos del rayo
+                const segmentLength = distance / segments;
+                let lastX = startX;
+                let lastY = startY;
+                
+                for (let i = 1; i <= segments; i++) {
+                    const segmentEndX = startX + (dx * i) / segments;
+                    const segmentEndY = startY + (dy * i) / segments;
+                    
+                    // Añadir variación aleatoria para hacer el rayo más natural
+                    const variation = (i < segments) ? 15 : 0; // No variar el último segmento
+                    const midX = (lastX + segmentEndX) / 2 + (Math.random() - 0.5) * variation;
+                    const midY = (lastY + segmentEndY) / 2 + (Math.random() - 0.5) * variation;
+                    
+                    // Crear segmento curvo
+                    createLightningSegment(lastX, lastY, midX, midY, segmentEndX, segmentEndY);
+                    
+                    lastX = segmentEndX;
+                    lastY = segmentEndY;
+                }
+            }
+
+            // MEJORA: Función para crear un segmento curvo del rayo
+            function createLightningSegment(x1, y1, x2, y2, x3, y3) {
+                const segment = document.createElement('div');
+                segment.className = 'lightning-segment';
+                
+                // Calcular longitud y ángulo del segmento
+                const dx = x3 - x1;
+                const dy = y3 - y1;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                
+                // Posicionar y rotar el segmento
+                segment.style.left = x1 + 'px';
+                segment.style.top = y1 + 'px';
+                segment.style.width = length + 'px';
+                segment.style.transform = `rotate(${angle}deg)`;
+                
+                // Añadir al área de juego
+                gameArea.appendChild(segment);
+                
+                // Eliminar después de la animación
+                setTimeout(() => {
+                    if (segment.parentNode) {
+                        segment.parentNode.removeChild(segment);
+                    }
+                }, 300);
+            }
+
+            function createBigSpark(element){
+                for(let i=0;i<10;i++){
+                    const spark=document.createElement('div');
+                    spark.className='big-spark';
+                    gameArea.appendChild(spark);
+                    const rect=element.getBoundingClientRect();
+                    const gRect=gameArea.getBoundingClientRect();
+                    const x=rect.left-gRect.left+rect.width/2;
+                    const y=rect.top-gRect.top+rect.height/2;
+                    const angle=Math.random()*Math.PI*2;
+                    const distance=Math.random()*50+30;
+                    spark.style.left=x+'px';
+                    spark.style.top=y+'px';
+                    spark.offsetWidth;
+                    spark.style.transform=`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px) scale(1)`;
+                    spark.style.opacity='0';
+                    setTimeout(()=>spark.remove(),700);
+                }
+            }
+
+            // MEJORA: Función para dibujar el rayo mejorado
+            function drawImprovedLightning(el1, el2) {
+                const r1 = el1.getBoundingClientRect();
+                const r2 = el2.getBoundingClientRect();
+                const g = gameArea.getBoundingClientRect();
+                
+                const startX = r1.left - g.left + r1.width / 2;
+                const startY = r1.top - g.top + r1.height / 2;
+                const endX = r2.left - g.left + r2.width / 2;
+                const endY = r2.top - g.top + r2.height / 2;
+                
+                // Crear múltiples rayos para un efecto más impactante
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => {
+                        createLightningBolt(startX, startY, endX, endY, 8 + Math.floor(Math.random() * 5));
+                    }, i * 50);
+                }
+            }
+
+            function checkSparkJump(){
+                if(chargeLevel<10)return;
+                const d=getDistance(cat,hand);
+                if(d<chargeLevel*1.5){
+                    drawImprovedLightning(cat,hand);
+                    createBigSpark(hand);
+                    discharge();
+                }
+            }
+
+            function onDragStart(e){
+                if(e.target.tagName==='IMG') e.preventDefault();
+                activeDraggable=this;
+                this.style.cursor='grabbing';
+                this.style.zIndex=1000;
+                const rect=this.getBoundingClientRect();
+                this.offsetX=e.clientX-rect.left;
+                this.offsetY=e.clientY-rect.top;
+                if(this.id==='gatoA-wrapper'){isCharging=true;lastMousePos={x:e.clientX,y:e.clientY};}
+                isDragging=true;
+            }
+
+            function onDragMove(e){
+                if(!isDragging||!activeDraggable)return;
+                const gR=gameArea.getBoundingClientRect();
+                let x=e.clientX-gR.left-activeDraggable.offsetX;
+                let y=e.clientY-gR.top-activeDraggable.offsetY;
+                x=Math.max(0,Math.min(x,gR.width-activeDraggable.offsetWidth));
+                y=Math.max(0,Math.min(y,gR.height-activeDraggable.offsetHeight));
+                activeDraggable.style.left=x+'px';
+                activeDraggable.style.top=y+'px';
+                if(activeDraggable.id==='gatoA-wrapper'){
+                    const dx=e.clientX-lastMousePos.x,dy=e.clientY-lastMousePos.y,d=Math.sqrt(dx*dx+dy*dy);
+                    if(isCharging && d>5){for(const s of chargeSources){
+                        const catRect=cat.getBoundingClientRect(),sRect=s.getBoundingClientRect();
+                        if(catRect.left<sRect.right && catRect.right>sRect.left && catRect.top<sRect.bottom && catRect.bottom>sRect.top){increaseCharge(d*0.05,s); break;}
+                    }}
+                    checkSparkJump();
+                    lastMousePos={x:e.clientX,y:e.clientY};
+                }
+            }
+
+            function onDragEnd(){if(activeDraggable){activeDraggable.style.cursor='grab';activeDraggable.style.zIndex=(activeDraggable.id==='gatoA-wrapper'?10:5);}isDragging=false;isCharging=false;activeDraggable=null;}
+
+            draggables.forEach(el=>el.addEventListener('mousedown',onDragStart));
+            document.addEventListener('mousemove',onDragMove);
+            document.addEventListener('mouseup',onDragEnd);
+
+            initParticles();
         });
     </script>
 </body>
-
 </html>
-
-
-
-
